@@ -56,12 +56,23 @@ class List {
 		size_t length() const {
 			return _size;
 		}
+		
+		List &operator=(const List &list) {
+			Dlist temp;
+			_size = list._size;
+			temp = _front;
+			for(temp = list._front; temp != nullptr; temp = temp->next) {
+				push_back(temp->value);
+			}
+			return *this;
+
+		}
 
 		void push_front(Data data) {
 			Dlist *newNode = new Dlist;
 			newNode->value = data;
 			newNode->prev = nullptr;
-
+			
 			if(_front==nullptr) {
 				newNode->next=nullptr;
 				_back=newNode;
@@ -108,22 +119,16 @@ class List {
 			delete front_to_delete;
 			_size -= 1;
 		}
-
 		//CONVERT THIS FUNCTION
 		void pop_back() {
-			Llist *back_to_remove = _back;
-
-			if(_front->next!=nullptr) {
-				Llist *new_back = _front;
-				while(new_back->next!=_back) {
-					new_back=new_back->next;
-				}
-				new_back->next=nullptr;
-				_back=new_back;
+			Dlist *back_to_remove = _back;
+			_back = _back->prev;
+			if(_back == nullptr) {
+				_front = nullptr;
 			}
+
 			else {
-				_front=nullptr;
-				_back=nullptr;
+				_back->next = nullptr;
 			}
 
 			delete back_to_remove;
@@ -137,10 +142,58 @@ class List {
 
 		//Modify this
 		void print() {
-			Llist *temp;
+			Dlist *temp;
 			for(temp=_front; temp!=nullptr; temp=temp->next) {
 				std::cout << temp->value << " ";
 			}
 			std::cout << std::endl;
 		}
+		
+		void print_back() {
+			Dlist *temp;
+			for(temp=_back; temp!=nullptr; temp=temp->prev) {
+				std::cout << temp->value<< " ";
+			}
+			std::cout << std::endl;
+		}
+		
+		 template<typename V> friend bool operator!=(const List <V> &a, const List <V> &b);
+		 template<typename V> friend bool operator==(const List <V> &a, const List <V> &b);	
 };
+
+template<typename V> bool operator!=(const List <V> &a, const List <V> &b) {
+	auto i = a._front, j = b._front;
+	if(a._size == b._size) {
+		for(int k = 0; k < a.size(); k++) {
+			if(i->value == j->value) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			i = i->next;
+			j = j->next;
+		}
+	}	
+	else {
+		return true;
+	}
+}
+template<typename V> bool operator==(const List <V> &a, const List <V> &b) {
+	auto i = a._front, j = b._front;
+	if(a._size == b._size) {
+		for(int k = 0; k < a.size(); k++) {
+			if(i->value == j->value) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			i = i->next;
+			j = j->next;
+		}
+	}	
+	else {
+		return false;
+	}
+}
