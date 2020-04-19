@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
-#include "GeneralList.h"
+#include "GeneralList.hpp"
 
-int main() {
+int main() 
+{
 	List<int> IntListA;
 	IntListA.push_back(2);
 	IntListA.push_front(4);
@@ -19,37 +20,40 @@ int main() {
 
 	typedef List<std::string> StringList;
 
-	StringList StringListC;
-	StringListC.push_back("Hi");
-	StringListC.push_back("There");
-	StringListC.push_back("!");
-	StringListC.print();
-	std::cout << StringListC.front() << " " << StringListC.back() << std::endl;
-	StringListC.pop_back();
-	StringListC.print();
+	StringList StringList;
+	//test push.back function
+	StringList.push_back("Good");
+	StringList.push_back("Morning");
+	StringList.push_back("!");
+	StringList.print();
+	std::cout << StringList.front() << " " << StringList.back() << std::endl;
+	//test pop.back function
+	StringList.pop_back();
+	StringList.print();
 
 	std::cout << std::endl;
 
 	using FloatList = List<float>;
 
-	FloatList FloatListD;
-	if(FloatListD.empty()) {
-		FloatListD.push_front(3.14);
-		FloatListD.push_front(8.9);
-		FloatListD.push_front(7.2);
-		FloatListD.push_back(5.6);
+	FloatList FloatList;
+	if(FloatList.empty()) {
+		FloatList.push_front(12.9);
+		FloatList.push_front(7.9);
+		FloatList.push_front(6.8);
+		FloatList.push_back(2.3);
 	}
-	FloatListD.print();
+	FloatList.print();
+	FloatList.print_back();
 
-	FloatList FloatListE=FloatListD;
+	FloatList FloatList2=FloatList;
 
-	if(FloatListE==FloatListD) {
+	if(FloatList2==FloatList) {
 		std::cout << "Float vectors are the same!" << std::endl;
 	}
 
-	FloatListE.push_front(1.0);
+	FloatList2.push_front(0.9);
 
-	if(FloatListE!=FloatListD) {
+	if(FloatList2!=FloatList) {
 		std::cout << "Float vectors are not the same!" << std::endl;
 	}
 
